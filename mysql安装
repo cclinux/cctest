@@ -1,0 +1,41 @@
+mysql:（参考https://www.cnblogs.com/bookwed/p/5896619.html）
+1）wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.33-linux-glibc2.5-x86_64.tar.gz 下载后的文件在root目录下。
+2）find / -name mysql|xargs rm -rf 删除以前残留的mysql。
+3）tar -zxvf mysql-5.6.33-linux-glibc2.5-x86_64.tar.gz 解压文件。
+4）mv mysql-5.6.33-linux-glibc2.5-x86_64/ mysql 重命名文件。
+5）mv -f mysql /usr/local/mysql
+6）groups mysql 查看是否有mysql用户组，如无，则添加：
+	6.1）groupadd mysql
+	6.2）useradd -r -g mysql mysql
+7）安装数据库
+	7.1）进入安装mysql软件目录：执行命令 cd /usr/local/mysql
+
+	7.2）修改当前目录拥有者为mysql用户：执行命令 chown -R mysql:mysql ./
+
+	7.3）安装数据库：执行命令./scripts/mysql_install_db --user=mysql --datadir=/usr/local/mysql/data/mysql，如提示FATAL ERROR: please install the following Perl modules before executing ./scripts/mysql_install_db:Data::Dumper 执行yum -y install autoconf
+
+	7.4）修改当前目录拥有者为root用户：执行命令 chown -R root:root ./
+	
+	7.5）修改当前data目录拥有者为mysql用户：执行命令 chown -R mysql:mysql data，到此数据库安装完毕
+8）启动mysql服务和添加开机启动mysql服务：
+	cp support-files/mysql.server /etc/init.d/mysql 添加开机启动
+	chmod 755 /etc/init.d/mysql
+	cp support-files/my-default.cnf /etc/my.cnf
+
+	#修改启动脚本
+	vi /etc/init.d/mysql
+
+	#修改项：
+	basedir=/usr/local/mysql/
+	datadir=/usr/local/mysql/data/mysql
+
+	在执行一次./scripts/mysql_install_db --user=mysql --datadir=/usr/local/mysql/data/mysql
+
+	#启动服务
+	service mysqld start
+
+
+
+	
+
+
